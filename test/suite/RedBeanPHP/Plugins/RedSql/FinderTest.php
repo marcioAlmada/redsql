@@ -219,13 +219,11 @@ abstract class FinderTest extends \PHPUnit_Framework_TestCase
 
     protected function createFixtures()
     {
-        array_map(
-            function ($data) {
-                $project = R::dispense('genius');
-                $project->import($data);
-                R::store($project);
-            },
-            $this->data
-        );
+        foreach($this->data as $data)
+        {
+            $project = R::dispense('genius');
+            $project->import($data);
+            R::store($project);       
+        }
     }
 }
