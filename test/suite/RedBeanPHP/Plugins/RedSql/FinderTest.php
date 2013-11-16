@@ -4,7 +4,7 @@ namespace RedBeanPHP\Plugins\RedSql;
 
 use R;
 
-class FinderTest extends \PHPUnit_Framework_TestCase
+abstract class FinderTest extends \PHPUnit_Framework_TestCase
 {
     protected $data = [
         ['name' => 'Alan Turing',         'birth' => 1912, 'death' => 1954, 'profession' => 'cryptanalyst'],
@@ -17,7 +17,6 @@ class FinderTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        R::setup();
         $this->createFixtures();
     }
 
@@ -218,7 +217,7 @@ class FinderTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(2, $people);
     }
 
-    private function createFixtures()
+    protected function createFixtures()
     {
         array_map(
             function ($data) {

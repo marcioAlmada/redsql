@@ -5,6 +5,9 @@ php:
   - 5.5
 
 before_script:
+  - touch /tmp/redsql.db
+  - mysql -e 'create database redsql;'
+  - psql -c 'create database redsql;' -U postgres
   - composer self-update
   - composer require satooshi/php-coveralls:dev-master --no-update --dev
   - composer install --dev --prefer-source
