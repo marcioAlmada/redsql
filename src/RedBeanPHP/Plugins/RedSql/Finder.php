@@ -194,7 +194,7 @@ class Finder
     protected function SQL_ILIKE($field, $value)
     {
         $this->values[] = $value;
-        if ($this->writer instanceof RedBean_QueryWriter_PostgreSQL || $this->writer instanceof RedBean_QueryWriter_MySQL) {
+        if ($this->writer instanceof RedBean_QueryWriter_PostgreSQL) {
             $this->sql .= " {$field} ILIKE ? ";
             return;
         }
