@@ -1,0 +1,23 @@
+{
+    "name": "redmodel/redsql",
+    "type": "package",
+    "description": "SQL helper for Redbean",
+    "keywords": ["php", "redbean plugin", "redsql"],
+    "homepage": "",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Márcio Almada",
+            "email": "marcio.web2@gmail.com",
+            "homepage": ""
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "gabordemooij/redbean": "dev-master"
+    },
+    "autoload": {
+        "psr-0": { "RedBeanPHP": "src" },
+        "files" : ["vendor/gabordemooij/redbean/rb.php"]
+    }
+}
