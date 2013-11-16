@@ -44,11 +44,11 @@ abstract class FinderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @__test
+     * @test
      */
     public function allowsRxSyntax()
     {
-        $this->assertCount(1, R::redsql('genius')->profession('theoretical physicist')->birth(1912)->death(1954)->find());
+        $this->assertCount(1, R::redsql('genius')->profession('cryptanalyst')->birth(1912)->death(1954)->find());
     }
 
     /**

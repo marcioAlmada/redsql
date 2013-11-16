@@ -34,11 +34,14 @@ class Finder
 
     protected $writer;
 
+    protected $express = false;
+
     public function __construct($type)
     {
         R::dispense($type);
         $this->type = $type;
         $this->writer = R::$toolbox->getWriter();
+        $this->turnExpressModeOff();
     }
 
     public function find()
@@ -58,9 +61,10 @@ class Finder
 
     protected function createConditionOrFail($field, $arguments)
     {
+        if($this->isExpressModeOn()){ $this->AND; }
         list($token, $values) = $this->solveConditionConstruct($arguments);
         $this->invokeBehavior($token, $field, $values);
-
+        $this->turnExpressModeOn();
         return $this;
     }
 
@@ -80,6 +84,7 @@ class Finder
             throw new \RuntimeException("\"{$token}\" is not a valid construct");
         }
         call_user_func_array([$this, $callback], [$field, $values]);
+        $this->turnExpressModeOff();
 
         return $this;
     }
@@ -106,6 +111,21 @@ class Finder
     protected function sanitizeToken($token)
     {
         return strtoupper(preg_replace('/\s+/', '', $token));
+    }
+
+    protected function turnExpressModeOn()
+    {
+        $this->express = true;
+    }
+    
+    protected function turnExpressModeOff()
+    {
+        $this->express = false;
+    }
+
+    protected function isExpressModeOn()
+    {
+        return $this->express;    
     }
 
     protected function SQL_AND()
@@ -162,12 +182,6 @@ class Finder
     {
         $this->SQL_GenericOperator($field, '<=', $value);
     }
-
-    // protected function SQL_($field, $value)
-    // {
-    //     $this->SQL_GenericOperator($field, '!=', $value);
-    //     $this->values[] = $value;
-    // }
 
     protected function SQL_IN($field, array $values)
     {
