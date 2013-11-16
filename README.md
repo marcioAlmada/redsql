@@ -5,7 +5,48 @@ RedSQL
 [![Coverage Status](https://coveralls.io/repos/marcioAlmada/redsql/badge.png?branch=master)](https://coveralls.io/r/marcioAlmada/redsql?branch=master)
 [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/marcioAlmada/redsql/badges/quality-score.png?s=e5130c16fe66958344c76d632b96318525234af9)](https://scrutinizer-ci.com/g/marcioAlmada/redsql/)
 
-SQL helper for Redbean. This plugin follows specification discussed in [#311](https://github.com/gabordemooij/redbean/issues/311).
+Programmatic and database agnostic SQL helper for Redbean.
+
+### Usage
+
+```php
+$projects =
+    R::redsql('project')
+        ->name('like', '%project x')
+        ->priority('>', 5)
+        ->created_at('between', [$time1, $time2])
+        ->find();
+```
+
+\+ even more sugar:
+
+```php
+$projects =
+    R::redsql('project')
+        ->name('like', '%secret%')->AND->priority('>', 9)
+        ->OR
+        ->OPEN
+            ->code('in', [007, 51])->AND->NOT->created_at('between', [$time1, $time2])
+        ->CLOSE
+        ->find()
+```
+
+
+### Installation
+
+RedSql is not released yet and RedBean 4 plugin integration is still being elaborated. But if you really want to use it in a project right now you can just:
+
+```php
+include 'path/to/vendor/redsql/bootstrap.php';
+```
+
+OR register `RedSql\Finder` yourself:
+
+```php
+R::ext( 'redsql', function ($type) {
+    return new RedBeanPHP\Plugins\RedSql\Finder($type);
+});
+```
 
 ### Contributing
  
@@ -18,3 +59,5 @@ SQL helper for Redbean. This plugin follows specification discussed in [#311](ht
 0. Back to step 5
 
 When everything is ready, create a pull request to desenv branch :)
+
+PS: This plugin follows specification discussed in [#311](https://github.com/gabordemooij/redbean/issues/311).
