@@ -143,11 +143,19 @@ abstract class FinderTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @depends supportsInOperator
      */
     public function emptyInValuesCreatesNoConditions()
     {
-        $this->assertCount(count($this->data), R::redsql('genius')->age('IN', [])->find());
+        $this->assertCount(count($this->data), R::redsql('genius')->birth('IN', [])->find());
+    }
+
+    /**
+     * @test
+     * @expectedException \InvalidArgumentException
+     */
+    public function failsInWithNonArrays()
+    {
+        $this->assertCount(count($this->data), R::redsql('genius')->birth('IN', 1839, 1856)->find());
     }
 
     /**

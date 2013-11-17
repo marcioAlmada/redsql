@@ -2,45 +2,52 @@
 
 namespace RedBeanPHP\Plugins\RedSql;
 
-use RedBean_QueryWriter_SQLiteT;
-use RedBean_QueryWriter_PostgreSQL;
-use RedBean_QueryWriter_MySQL;
-use RedBean_QueryWriter_CUBRID;
-use RedBean_QueryWriter_Oracle;
-
 use R;
 
 class Finder
 {
+    /**
+     * Bean type
+     * @var string
+     */
     protected $type;
 
+    /**
+     * SQL where string
+     * @var string
+     */
     protected $sql = '';
 
+    /**
+     * SQL values
+     * @var array
+     */
     protected $values = [];
 
+    /**
+     * This map helps Finder to resolve filters for arithmetic operators
+     * @var array
+     */
     protected $map = [
         '='  => 'EQUALS',
-        '!='  => 'NOTEQUALS',
-        '<>'  => 'NOTEQUALS',
+        '!=' => 'NOTEQUALS',
+        '<>' => 'NOTEQUALS',
         '<'  => 'LESS',
         '>'  => 'GREATER',
         '>=' => 'GREATEROREQUALS',
-        '<=' => 'LESSOREQUALS',
-        'like' => 'LIKE',
-        'ilike' => 'ILIKE',
-        'in' => 'IN',
-        'between' => 'BETWEEN'
+        '<=' => 'LESSOREQUALS'
     ];
 
-    protected $writer;
-
+    /**
+     * Allows express syntax, flagging finder to trigger AND operator automatically
+     * @var boolean
+     */
     protected $express = false;
 
     public function __construct($type)
     {
         R::dispense($type);
         $this->type = $type;
-        $this->writer = R::$toolbox->getWriter();
         $this->turnExpressModeOff();
     }
 
@@ -56,19 +63,20 @@ class Finder
 
     public function __get($token)
     {
-        return $this->invokeBehavior($token);
+        return $this->applyFilter($token);
     }
 
     protected function createConditionOrFail($field, $arguments)
     {
-        if($this->isExpressModeOn()){ $this->AND; }
-        list($token, $values) = $this->solveConditionConstruct($arguments);
-        $this->invokeBehavior($token, $field, $values);
+        if ($this->isExpressModeOn()) { $this->AND; }
+        list($token, $values) = $this->solveFilterArgs($arguments);
+        $this->applyFilter($token, $field, $values);
         $this->turnExpressModeOn();
+
         return $this;
     }
 
-    protected function solveConditionConstruct($args)
+    protected function solveFilterArgs($args)
     {
         if (1 === count($args)) {
             return ['=', $args[0]];
@@ -77,35 +85,35 @@ class Finder
         return [$args[0], $args[1]];
     }
 
-    protected function invokeBehavior($token, $field = null, $values = [])
+    protected function applyFilter($token, $field = null, $values = null)
     {
-        $callback = $this->solveBehaviorCallback($token);
-        if (!$this->behaviorsExists($callback)) {
-            throw new \RuntimeException("\"{$token}\" is not a valid construct");
+        $FilterClass = $this->solveFilterClass($token);
+        if (!$this->filterExists($FilterClass)) {
+            throw new \RuntimeException("\"{$token}\" is not a valid RedSql construct");
         }
-        call_user_func_array([$this, $callback], [$field, $values]);
+        (new $FilterClass())->apply($this->sql, $this->values, $field, $values);
         $this->turnExpressModeOff();
 
         return $this;
     }
 
-    protected function behaviorsExists($callback)
+    protected function filterExists($class)
     {
-        if (method_exists($this, $callback)) {
+        if (class_exists($class)) {
            return true;
         }
 
         return false;
     }
 
-    protected function solveBehaviorCallback($token)
+    protected function solveFilterClass($token)
     {
         $real_token = $this->sanitizeToken($token);
         if (in_array($real_token, array_keys($this->map))) {
             $real_token = $this->map[$token];
         }
 
-        return 'SQL_'.$real_token;
+        return __NAMESPACE__.'\Filters\Filter'.$real_token;
     }
 
     protected function sanitizeToken($token)
@@ -117,7 +125,7 @@ class Finder
     {
         $this->express = true;
     }
-    
+
     protected function turnExpressModeOff()
     {
         $this->express = false;
@@ -125,100 +133,7 @@ class Finder
 
     protected function isExpressModeOn()
     {
-        return $this->express;    
+        return $this->express;
     }
 
-    protected function SQL_AND()
-    {
-        $this->sql .= " AND ";
-    }
-
-    protected function SQL_OR()
-    {
-        $this->sql .= " OR ";
-    }
-
-    protected function SQL_NOT()
-    {
-        $this->sql .= " NOT ";
-    }
-
-    protected function SQL_OPEN()
-    {
-        $this->sql .= " ( ";
-    }
-
-    protected function SQL_CLOSE()
-    {
-        $this->sql .= " ) ";
-    }
-
-    protected function SQL_EQUALS($field, $value)
-    {
-        $this->SQL_GenericOperator($field, '=', $value);
-    }
-
-    protected function SQL_NOTEQUALS($field, $value)
-    {
-        $this->SQL_GenericOperator($field, '!=', $value);
-    }
-
-    protected function SQL_GREATER($field, $value)
-    {
-        $this->SQL_GenericOperator($field, '>', $value);
-    }
-
-    protected function SQL_GREATEROREQUALS($field, $value)
-    {
-        $this->SQL_GenericOperator($field, '>=', $value);
-    }
-
-    protected function SQL_LESS($field, $value)
-    {
-        $this->SQL_GenericOperator($field, '<', $value);
-    }
-
-    protected function SQL_LESSOREQUALS($field, $value)
-    {
-        $this->SQL_GenericOperator($field, '<=', $value);
-    }
-
-    protected function SQL_IN($field, array $values)
-    {
-        if (count($values)) {
-            $this->sql .= " {$field} IN (".R::genSlots($values).") ";
-            $this->values = $this->values + $values;
-        }
-    }
-
-    protected function SQL_BETWEEN($field, array $values)
-    {
-        if (2 != count($values)) {
-            throw new \InvalidArgumentException("BETWEEN expects two values for comparison.");
-        }
-        $this->sql .= " {$field} BETWEEN ? AND ? ";
-        $this->values = $this->values + $values;
-    }
-
-    protected function SQL_LIKE($field, $value)
-    {
-        $this->SQL_GenericOperator($field, 'LIKE', $value);
-    }
-
-    protected function SQL_ILIKE($field, $value)
-    {
-        $this->values[] = $value;
-        if ($this->writer instanceof RedBean_QueryWriter_PostgreSQL) {
-            $this->sql .= " {$field} ILIKE ? ";
-            return;
-        }
-        # fallback to databases that do not support ILIKE
-        $this->sql .= " UPPER({$field}) LIKE UPPER(?) ";
-    }
-
-    protected function SQL_GenericOperator($field, $token, $value)
-    {
-        $this->sql .= " {$field} {$token} ? ";
-        $this->values[] = $value;
-    }
 }
