@@ -37,9 +37,23 @@ class Finder
         $this->turnExpressModeOff();
     }
 
-    public function find()
+    public function find($limit = null, $offset = null, $sql_append = '')
     {
-        return R::find($this->type, $this->sql, $this->values);
+        $this->applyLimitAndOffset($limit, $offset);
+        return R::find($this->type, $this->sql . $sql_append, $this->values);
+    }
+
+    protected function applyLimitAndOffset($limit = null, $offset = null)
+    {
+        if(null !== $limit)
+        {
+            $this->applyFilter('LIMIT', null, $limit);
+            if(null !== $offset)
+            {
+                $this->applyFilter('OFFSET', null, $offset);
+                var_dump($this->sql);
+            }
+        }
     }
 
     public function __call($field, $arguments)

@@ -225,6 +225,25 @@ abstract class FinderTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(2, $people);
     }
 
+    /**
+     * @test
+     */
+    public function allowFindWithLimitAndOffset()
+    {
+        $this->assertCount(0, R::redsql('genius')->find(0));
+        $this->assertCount(0, R::redsql('genius')->find(0, 1));
+        $this->assertCount(0, R::redsql('genius')->find(0, 0));
+        $this->assertCount(0, R::redsql('genius')->find(-1, count($this->data)));
+
+        $this->assertCount(1, R::redsql('genius')->find(1));
+        $this->assertCount(1, R::redsql('genius')->find(1, 0));
+
+        $this->assertCount(count($this->data), R::redsql('genius')->find(-1));
+        $this->assertCount(count($this->data), R::redsql('genius')->find(-1, 0));
+        $this->assertCount(count($this->data), R::redsql('genius')->find(-1, -1));
+        $this->assertCount(count($this->data) - 2, R::redsql('genius')->find(-1, 2));
+    }
+
     protected function createFixtures()
     {
         array_map(
