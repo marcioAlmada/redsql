@@ -2,14 +2,22 @@
 
 namespace RedBeanPHP\Plugins\RedSql\Filters;
 
-class FilterBETWEEN extends AbstractFilter
+class FilterBETWEEN extends GenericFilter
 {
-    public function apply(&$sql_reference, array &$values_reference, $field = null, $values = null)
+
+    protected $operator = 'BETWEEN';
+
+    public function validate(array $parameters)
     {
-        if (2 != count($values)) {
+        parent::validate($parameters);
+        if (2 != count($parameters['value'])) {
             throw new \InvalidArgumentException("BETWEEN expects two values for comparison.");
         }
-        $sql_reference .= " {$field} BETWEEN ? AND ? ";
-        $values_reference = $values_reference + $values;
+    }
+
+    public function apply(&$sql_reference, array &$values_reference, array $parameters)
+    {
+        $sql_reference .= " {$parameters['field']} {$this->operator} ? AND ? ";
+        $values_reference = $values_reference + $parameters['value'];
     }
 }

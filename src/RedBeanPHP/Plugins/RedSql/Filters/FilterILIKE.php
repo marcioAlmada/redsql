@@ -5,14 +5,17 @@ namespace RedBeanPHP\Plugins\RedSql\Filters;
 use R;
 use RedBean_QueryWriter_PostgreSQL;
 
-class FilterILIKE extends AbstractFilter
+class FilterILIKE extends GenericFilter
 {
-    public function apply(&$sql_reference, array &$values_reference, $field = null, $value = null)
+    protected $operator = 'ILIKE';
+
+    public function apply(&$sql_reference, array &$values_reference, array $parameters)
     {
+        $values_reference[] = $parameters['value'];
+        $field = $parameters['field'];
         $writer = R::$toolbox->getWriter();
-        $values_reference[] = $value;
         if ($writer instanceof RedBean_QueryWriter_PostgreSQL) {
-            $sql_reference .= " {$field} ILIKE ? ";
+            $sql_reference .= " {$field} {$this->operator} ? ";
 
             return;
         }

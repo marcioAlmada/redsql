@@ -3,21 +3,25 @@
 namespace RedBeanPHP\Plugins\RedSql\Filters;
 
 use R;
-use RedBean_QueryWriter_PostgreSQL;
 use RedBean_QueryWriter_Oracle;
-use RedBean_QueryWriter_MySQL;
-use RedBean_QueryWriter_CUBRID;
-use RedBean_QueryWriter_SQLiteT;
 
-class FilterOFFSET extends AbstractFilter
+class FilterOFFSET implements FilterInterface
 {
+
+    public function validate(array $parameters)
+    {
+        if (!array_key_exists('value', $parameters)) {
+            throw new \InvalidArgumentException("OFFSET expects an [offset] value.");
+        }
+    }
+
     /**
      * @todo limit for oracle
      */
-    public function apply(&$sql_reference, array &$values_reference, $field = null, $offset = null)
+    public function apply(&$sql_reference, array &$values_reference, array $parameters)
     {
         $writer = R::$toolbox->getWriter();
-        $values_reference[] = $offset;
+        $values_reference[] = $parameters['value'];
         if ($writer instanceof RedBean_QueryWriter_Oracle) {
             return;
         }

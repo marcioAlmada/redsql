@@ -40,17 +40,16 @@ class Finder
     public function find($limit = null, $offset = null, $sql_append = '')
     {
         $this->applyLimitAndOffset($limit, $offset);
+
         return R::find($this->type, $this->sql . $sql_append, $this->values);
     }
 
     protected function applyLimitAndOffset($limit = null, $offset = null)
     {
-        if(null !== $limit)
-        {
-            $this->applyFilter('LIMIT', null, $limit);
-            if(null !== $offset)
-            {
-                $this->applyFilter('OFFSET', null, $offset);
+        if (null !== $limit) {
+            $this->applyFilter('LIMIT', ['value' => $limit]);
+            if (null !== $offset) {
+                $this->applyFilter('OFFSET', ['value' => $offset]);
             }
         }
     }
@@ -62,14 +61,14 @@ class Finder
 
     public function __get($token)
     {
-        return $this->applyFilter($token);
+        return $this->applyFilter($token, []);
     }
 
     protected function createConditionOrFail($field, $arguments)
     {
         if ($this->isExpressModeOn()) { $this->AND; }
         list($token, $values) = $this->solveFilterArgs($arguments);
-        $this->applyFilter($token, $field, $values);
+        $this->applyFilter($token, ['field' => $field, 'value' => $values]);
         $this->turnExpressModeOn();
 
         return $this;
@@ -84,10 +83,11 @@ class Finder
         return [$args[0], $args[1]];
     }
 
-    protected function applyFilter($token, $field = null, $values = null)
+    protected function applyFilter($token, array $parameters)
     {
-        $FilterResolver = new FilterResolver();
-        $FilterResolver->getFilterInstanceOrFail($token)->apply($this->sql, $this->values, $field, $values);
+        $Filter = (new FilterResolver)->getFilterInstanceOrFail($token);
+        $Filter->validate($parameters);
+        $Filter->apply($this->sql, $this->values, $parameters);
         $this->turnExpressModeOff();
 
         return $this;

@@ -45,6 +45,34 @@ abstract class FinderTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @expectedException \InvalidArgumentException
+     * @dataProvider tokenDataProvider
+     */
+    public function failsApplyingFilterInWrongContext($token)
+    {
+        R::redsql('genius')->$token->find();
+    }
+
+    public function tokenDataProvider()
+    {
+        return [
+            ['BETWEEN'],
+            ['EQUALS'],
+            ['GREATER'],
+            ['GREATEROREQUALS'],
+            ['LIKE'],
+            ['ILIKE'],
+            ['IN'],
+            ['LESS'],
+            ['LESSOREQUALS'],
+            ['LIMIT'],
+            ['OFFSET'],
+            ['NOTEQUALS']
+        ];
+    }
+
+    /**
+     * @test
      */
     public function allowsRxSyntax()
     {
@@ -241,7 +269,6 @@ abstract class FinderTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(1, R::redsql('genius')->find(100, 5));
         $this->assertCount(6, R::redsql('genius')->find(100, 0));
     }
-
 
     protected function createFixtures()
     {
