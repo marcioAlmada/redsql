@@ -25,20 +25,6 @@ class Finder
     protected $values = [];
 
     /**
-     * This map helps Finder to resolve filters for arithmetic operators
-     * @var array
-     */
-    protected $map = [
-        '='  => 'EQUALS',
-        '!=' => 'NOTEQUALS',
-        '<>' => 'NOTEQUALS',
-        '<'  => 'LESS',
-        '>'  => 'GREATER',
-        '>=' => 'GREATEROREQUALS',
-        '<=' => 'LESSOREQUALS'
-    ];
-
-    /**
      * Allows express syntax, flagging finder to trigger AND operator automatically
      * @var boolean
      */
@@ -87,38 +73,11 @@ class Finder
 
     protected function applyFilter($token, $field = null, $values = null)
     {
-        $FilterClass = $this->solveFilterClass($token);
-        if (!$this->filterExists($FilterClass)) {
-            throw new \RuntimeException("\"{$token}\" is not a valid RedSql construct");
-        }
-        (new $FilterClass())->apply($this->sql, $this->values, $field, $values);
+        $FilterResolver = new FilterResolver();
+        $FilterResolver->getFilterInstanceOrFail($token)->apply($this->sql, $this->values, $field, $values);
         $this->turnExpressModeOff();
 
         return $this;
-    }
-
-    protected function filterExists($class)
-    {
-        if (class_exists($class)) {
-           return true;
-        }
-
-        return false;
-    }
-
-    protected function solveFilterClass($token)
-    {
-        $real_token = $this->sanitizeToken($token);
-        if (in_array($real_token, array_keys($this->map))) {
-            $real_token = $this->map[$token];
-        }
-
-        return __NAMESPACE__.'\Filters\Filter'.$real_token;
-    }
-
-    protected function sanitizeToken($token)
-    {
-        return strtoupper(preg_replace('/\s+/', '', $token));
     }
 
     protected function turnExpressModeOn()
