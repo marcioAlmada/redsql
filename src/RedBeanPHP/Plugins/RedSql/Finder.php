@@ -51,7 +51,6 @@ class Finder
             if(null !== $offset)
             {
                 $this->applyFilter('OFFSET', null, $offset);
-                var_dump($this->sql);
             }
         }
     }
