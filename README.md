@@ -7,7 +7,7 @@ RedSQL
 
 Programmatic and database agnostic SQL helper for Redbean.
 
-### Usage
+## Usage
 
 ```php
 $projects =
@@ -32,7 +32,7 @@ $projects =
 ```
 
 
-### Installation
+## Installation
 
 RedSql is not released yet and RedBean 4 plugin integration is still being elaborated. But if you really want to use it in a project right now you can just:
 
@@ -48,7 +48,18 @@ R::ext( 'redsql', function ($type) {
 });
 ```
 
-### Contributing
+## Support [![Build Status](https://travis-ci.org/marcioAlmada/redsql.png?branch=master)](https://travis-ci.org/marcioAlmada/redsql)
+
+If build badge is green it means RedSql latest version is working on:
+
+- Postgre
+- MySQL
+- SQLite
+- ~~CUBRID~~ (soon)
+- ~~Oracle~~ (soon)
+- ~~MSSQL Server~~ (as soon as RedBean supports it)
+
+## Contributing
  
 0. Fork redsql
 0. Clone your forked repository
