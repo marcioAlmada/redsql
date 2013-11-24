@@ -2,7 +2,7 @@
 
 namespace RedBeanPHP\Plugins\RedSql\Filters;
 
-use R;
+use RedBean_Facade as R;
 use RedBean_QueryWriter_Oracle;
 
 class FilterOFFSET implements FilterInterface

@@ -2,7 +2,7 @@
 
 namespace RedBeanPHP\Plugins\RedSql;
 
-use R;
+use RedBean_Facade as R;
 
 abstract class FinderTest extends \PHPUnit_Framework_TestCase
 {

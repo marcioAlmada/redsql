@@ -2,7 +2,7 @@
 
 namespace RedBeanPHP\Plugins\RedSql;
 
-use R;
+use RedBean_Facade as R;
 
 class FinderPostgreSQLTest extends FinderTest
 {
