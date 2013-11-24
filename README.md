@@ -17,7 +17,7 @@ Programmatic and database agnostic SQL helper for Redbean delivered as a plugin.
 
 ## Installation
 
-RedBean plugin delivery proccess is still under discussion, but if you really want to use it in a project right now you can manually update `composer.json` with:
+RedBean plugin delivery process is still under discussion, but if you really want to use it in a project right now you can manually update `composer.json` with:
 
 ```json
 {
@@ -31,7 +31,7 @@ Or just use your terminal: `composer require redsql/redsql:dev-master` :8ball:
 
 ## Usage
 
-RedSQL public API is fluid and completely achieved with magic methods. Given the following table structure you can easily:
+RedSQL public API is fluid and completely achieved with magic methods. Given the following table structure:
 
 <table>
   <tr>
@@ -56,9 +56,9 @@ $projects =
     R::redsql('project')
         ->name('like', '%secret%')->AND->priority('>', 9)
         ->OR
-            ->OPEN
-                ->code('in', [007, 51])->AND->NOT->created_at('between', [$time1, $time2])
-            ->CLOSE
+        ->OPEN
+            ->code('in', [007, 51])->AND->NOT->created_at('between', [$time1, $time2])
+        ->CLOSE
         ->find($limit, $offset)
 ```
 
@@ -84,6 +84,6 @@ If build badge is green it means RedSql latest version is working on:
 0. Modify code: correct bug, implement features
 0. Back to step 5
 
-When everything is ready, create a pull request to desenv branch :)
+When everything is ready, create a pull request to develop branch :)
 
 PS: This plugin follows specification discussed in [#311](https://github.com/gabordemooij/redbean/issues/311).
