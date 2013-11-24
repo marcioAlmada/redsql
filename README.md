@@ -5,7 +5,7 @@ RedSQL
 [![Coverage Status](https://coveralls.io/repos/marcioAlmada/redsql/badge.png?branch=master)](https://coveralls.io/r/marcioAlmada/redsql?branch=master)
 [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/marcioAlmada/redsql/badges/quality-score.png?s=e5130c16fe66958344c76d632b96318525234af9)](https://scrutinizer-ci.com/g/marcioAlmada/redsql/)
 
-Programmatic and database agnostic SQL helper for Redbean delivered as a plugin.
+Programmatic and database agnostic SQL helper for RedBean delivered as a plugin.
 
 # Features
 
@@ -87,3 +87,5 @@ If build badge is green it means RedSql latest version is working on:
 When everything is ready, create a pull request to develop branch :)
 
 PS: This plugin follows specification discussed in [#311](https://github.com/gabordemooij/redbean/issues/311).
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/marcioAlmada/redsql/trend.png)](https://bitdeli.com/free "Bitdeli Badge")

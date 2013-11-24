@@ -1,7 +1,7 @@
 {
     "name": "redsql/redsql",
     "type": "package",
-    "description": "SQL helper for Redbean",
+    "description": "Programmatic and database agnostic SQL helper for RedBean delivered as a plugin.",
     "keywords": ["php", "redbean plugin", "redsql"],
     "homepage": "",
     "license": "MIT",
