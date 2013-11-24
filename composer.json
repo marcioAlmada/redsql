@@ -1,5 +1,5 @@
 {
-    "name": "redmodel/redsql",
+    "name": "redsql/redsql",
     "type": "package",
     "description": "SQL helper for Redbean",
     "keywords": ["php", "redbean plugin", "redsql"],
@@ -18,6 +18,6 @@
     },
     "autoload": {
         "psr-0": { "RedBeanPHP": "src" },
-        "files" : ["vendor/gabordemooij/redbean/rb.php"]
+        "files" : ["bootstrap.php"]
     }
 }
