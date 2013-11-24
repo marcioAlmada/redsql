@@ -14,7 +14,7 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "gabordemooij/redbean": "dev-master"
+        "gabordemooij/redbean": "~3.5"
     },
     "autoload": {
         "psr-0": { "RedBeanPHP": "src" },
