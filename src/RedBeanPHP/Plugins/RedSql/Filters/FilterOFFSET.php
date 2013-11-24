@@ -4,6 +4,7 @@ namespace RedBeanPHP\Plugins\RedSql\Filters;
 
 use R;
 use RedBean_QueryWriter_Oracle;
+use RedBean_QueryWriter_MySQL;
 
 class FilterOFFSET implements FilterInterface
 {
@@ -23,6 +24,10 @@ class FilterOFFSET implements FilterInterface
         $writer = R::$toolbox->getWriter();
         $values_reference[] = $parameters['value'];
         if ($writer instanceof RedBean_QueryWriter_Oracle) {
+            return;
+        }
+        if ($writer instanceof RedBean_QueryWriter_MySQL) {
+            $sql_reference .= ", ? ";
             return;
         }
         $sql_reference .= " OFFSET ? ";
