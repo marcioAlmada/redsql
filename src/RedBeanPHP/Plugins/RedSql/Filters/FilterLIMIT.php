@@ -15,9 +15,6 @@ class FilterLIMIT implements FilterInterface
         }
     }
 
-    /**
-     * @todo limit for oracle
-     */
     public function apply(&$sql_reference, array &$values_reference, array $parameters)
     {
         $writer = R::$toolbox->getWriter();
