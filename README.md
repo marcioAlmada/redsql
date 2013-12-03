@@ -77,12 +77,12 @@ If build badge is green it means RedSql latest version is working on:
 ## Contributing
  
 0. Fork redsql
-0. Clone your forked repository
 0. Install composer dependencies `$ composer install --prefer-dist`
-0. Setup redbean `$ cd vendor/gabordemooij/redbean/ && php replica.php && cd -`
 0. Run desired unit tests `$ phpunit` or at least `$ phpunit test/suite/RedBeanPHP/Plugins/RedSql/FinderSQLiteTest.php`
 0. Modify code: correct bug, implement features
-0. Back to step 5
+0. Back to step 3
+
+> TIP: You will need to setup environment for each specific database you want to cover, with exception of FinderSQLiteTest which uses a temporary database
 
 When everything is ready, create a pull request to develop branch :)
 
