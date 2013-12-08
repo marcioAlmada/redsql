@@ -20,8 +20,11 @@ class FilterLIMIT implements FilterInterface
         $writer = R::$toolbox->getWriter();
         $values_reference[] = $parameters['value'];
         if ($writer instanceof RedBean_QueryWriter_Oracle) {
-            $sql_reference .= " ROWNUM <= ? ";
-
+            $sql_reference = "select * from  (
+                select VIRTUAL.*, ROWNUM ROWOFFSET from  (
+                    {{ $sql_reference }}
+                ) VIRTUAL
+            ) where ROWNUM <= ? ";
             return;
         }
         $sql_reference .= " LIMIT ? ";

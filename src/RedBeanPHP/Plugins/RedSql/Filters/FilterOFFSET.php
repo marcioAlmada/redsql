@@ -23,6 +23,7 @@ class FilterOFFSET implements FilterInterface
         $writer = R::$toolbox->getWriter();
         $values_reference[] = $parameters['value'];
         if ($writer instanceof RedBean_QueryWriter_Oracle) {
+            $sql_reference .= " AND ROWOFFSET >= ? ";
             return;
         }
         $sql_reference .= " OFFSET ? ";
