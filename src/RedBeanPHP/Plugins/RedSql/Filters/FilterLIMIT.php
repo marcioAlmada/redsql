@@ -20,11 +20,13 @@ class FilterLIMIT implements FilterInterface
         $writer = R::$toolbox->getWriter();
         $values_reference[] = $parameters['value'];
         if ($writer instanceof RedBean_QueryWriter_Oracle) {
+            // Oracle has no support for LIMIT. Time for ROWNUM + subqueries...
             $sql_reference = "select * from  (
                 select VIRTUAL.*, ROWNUM ROWOFFSET from  (
                     {{ $sql_reference }}
                 ) VIRTUAL
             ) where ROWNUM <= ? ";
+
             return;
         }
         $sql_reference .= " LIMIT ? ";

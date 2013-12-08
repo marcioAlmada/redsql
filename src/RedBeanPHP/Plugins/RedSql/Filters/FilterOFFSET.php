@@ -15,13 +15,11 @@ class FilterOFFSET implements FilterInterface
         }
     }
 
-    /**
-     * @todo limit for oracle
-     */
     public function apply(&$sql_reference, array &$values_reference, array $parameters)
     {
         $writer = R::$toolbox->getWriter();
         $values_reference[] = $parameters['value'];
+        // Oracle has no support for OFFSET. ROWOFFSET is just an alias for standard ROWNUM.
         if ($writer instanceof RedBean_QueryWriter_Oracle) {
             $sql_reference .= " AND ROWOFFSET >= ? ";
             return;
