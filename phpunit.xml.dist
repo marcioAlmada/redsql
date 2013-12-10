@@ -14,7 +14,7 @@
     <testsuites>
         <testsuite>
             <directory>test/</directory>
-            <exclude>./test/suite/RedBeanPHP/Plugins/RedSql/OracleTest.php</exclude>
+            <exclude>./test/suite/RedBeanPHP/Plugins/RedSql/FinderOracleTest.php</exclude>
         </testsuite>
     </testsuites>
 
