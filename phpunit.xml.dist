@@ -14,17 +14,13 @@
     <testsuites>
         <testsuite>
             <directory>test/</directory>
+            <exclude>./test/suite/RedBeanPHP/Plugins/RedSql/OracleTest.php</exclude>
         </testsuite>
     </testsuites>
 
     <filter>
         <whitelist>
-            <directory>./</directory>
-            <exclude>
-                <directory>./test</directory>
-                <directory>./vendor</directory>
-                <file>bootstrap.php</file>
-            </exclude>
+            <directory>src</directory>
         </whitelist>
     </filter>
 
