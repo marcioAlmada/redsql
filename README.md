@@ -17,8 +17,6 @@ Programmatic and database agnostic SQL helper for RedBean delivered as a plugin.
 
 ## Installation
 
-RedBean plugin delivery process is still under discussion, but if you really want to use it in a project right now you can manually update `composer.json` with:
-
 ```json
 {
   "require": {
@@ -31,7 +29,8 @@ Or just use your terminal: `composer require redsql/redsql:dev-master` :8ball:
 
 ## Usage
 
-RedSQL public API is fluid and completely achieved with magic methods. Given the following table structure:
+RedSQL public API is ~~awsome~~ fluid and completely achieved with PHP ~~wizardry~~ magic.
+So, given the following table structure:
 
 <table>
   <tr>
@@ -98,13 +97,14 @@ If build badge is green it means RedSql latest version is working on:
  
 0. Fork redsql
 0. Install composer dependencies `$ composer install --prefer-dist`
-0. Run desired unit tests `$ phpunit` or at least `$ phpunit test/suite/RedBeanPHP/Plugins/RedSql/FinderSQLiteTest.php`
-0. Modify code: correct bug, implement features
+0. Run desired unit tests `$ phpunit` or at least `$ phpunit --group sqlite`
+0. Modify code: correct bug, implement your awesome new feature
 0. Back to step 3
 
-> TIP: You will need to setup environment for each specific database you want to cover, with exception of FinderSQLiteTest which uses a temporary database
-
 When everything is ready, create a pull request to develop branch :)
+
+> You will need to setup your environment for each specific database you want to cover, with exception of FinderSQLiteTest which uses a temporary database.
+
 
 PS: This plugin follows specification discussed in [#311](https://github.com/gabordemooij/redbean/issues/311).
 
