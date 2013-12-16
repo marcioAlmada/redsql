@@ -4,6 +4,10 @@ namespace RedBeanPHP\Plugins\RedSql;
 
 use RedBean_Facade as R;
 
+/**
+ * @group travis
+ * @group mysql
+ */
 class FinderMySQLTest extends FinderTest
 {
 

@@ -67,11 +67,11 @@ $projects =
 
 If build badge is green it means RedSql latest version is working on:
 
+- Oracle
 - Postgre
 - MySQL
 - SQLite
 - CUBRID
-- ~~Oracle~~ (soon)
 - ~~MSSQL Server~~ (as soon as RedBean supports it)
 
 ## Contributing

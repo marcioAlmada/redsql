@@ -12,5 +12,7 @@ before_script:
   - composer require satooshi/php-coveralls:dev-master --no-update --dev
   - composer install --dev --prefer-source
 
+script: phpunit --group travis
+
 after_script:
   - php vendor/bin/coveralls

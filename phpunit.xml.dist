@@ -12,9 +12,8 @@
          stopOnFailure="false">
     
     <testsuites>
-        <testsuite>
+        <testsuite name="exclude-oracle">
             <directory>test/</directory>
-            <exclude>./test/suite/RedBeanPHP/Plugins/RedSql/FinderOracleTest.php</exclude>
         </testsuite>
     </testsuites>
 

@@ -15,15 +15,17 @@ class FilterIN extends GenericFilter
         if (!is_array($parameters['value'])) {
             throw new \InvalidArgumentException("IN expects array of values for comparison.");
         }
+        if(!count($parameters['value']))
+        {
+            return false;
+        }
     }
 
     public function apply(&$sql_reference, array &$values_reference, array $parameters)
     {
         $values = $parameters['value'];
         $field = $parameters['field'];
-        if (count($values)) {
-            $sql_reference .= " {$field} {$this->operator} (".R::genSlots($values).") ";
-            $values_reference = $values_reference + $values;
-        }
+        $sql_reference .= " {$field} {$this->operator} (".R::genSlots($values).") ";
+        $values_reference = $values_reference + $values;
     }
 }

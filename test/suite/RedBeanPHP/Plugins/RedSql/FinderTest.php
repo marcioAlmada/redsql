@@ -270,6 +270,26 @@ abstract class FinderTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(6, R::redsql('genius')->find(100, 0));
     }
 
+    /**
+     * @test
+     */
+    public function findWithFields()
+    {
+        $result = R::redsql('genius', ['name', 'birth'])->find()[1];
+        $this->assertEquals($this->data[0]['name'], $result->name);
+        $this->assertEquals($this->data[0]['birth'], $result->birth);
+        $this->assertSame(NULL, $result->death);
+        $this->assertSame(NULL, $result->profession);
+    }
+
+    /**
+     * @test
+     */
+    public function findFirst()
+    {
+        $this->assertEquals($this->data[0]['name'], R::redsql('genius', ['name'])->findFirst()->name);
+    }
+
     protected function createFixtures()
     {
         array_map(
