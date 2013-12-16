@@ -11,9 +11,9 @@ Programmatic and database agnostic SQL helper for RedBean delivered as a plugin.
 
 * Express syntax
 * Dynamic API: available methods are just a mirror of your table (bean) structure.
-* Programmatic: Avoid nasty string manipulations to achieve dynamic SQL construction.
-* Database agnostic: API inconsistencies across databases (aka Oracle) are gracefully normalized.
-* Does not aims to hide SQL (too much).
+* Programmatic: avoid nasty string manipulations to achieve dynamic SQL construction.
+* Database agnostic: SQL inconsistencies across databases (aka Oracle) like LIMIT and OFFSET are gracefully normalized.
+* Lazy field loading: restrict wich fields you want in your queries without code faffing.
 
 ## Installation
 
@@ -35,10 +35,11 @@ RedSQL public API is fluid and completely achieved with magic methods. Given the
 
 <table>
   <tr>
-    <th>id</th><th>name</th><th>priority</th><th>created_at</th>
+    <th>id</th><th>name</th><th>description</th><th>priority</th><th>created_at</th>
   </tr>
 </table>
 
+Express syntax:
 
 ```php
 $projects =
@@ -49,7 +50,7 @@ $projects =
         ->find($limit, $offset);
 ```
 
-\+ some syntatic sugar:
+\+ Syntatic sugar:
 
 ```php
 $projects =
@@ -62,6 +63,25 @@ $projects =
         ->find($limit, $offset)
 ```
 
+Select specific fields:
+
+```php
+$projects = R::redsql('project', ['name', 'description'])->find($limit, $offset);
+//
+SELECT `name`, `description` FROM `project` LIMIT ? OFFSET ?
+```
+
+\- Houston, we got Oracle! - No problem.
+
+```php
+$projects = R::redsql('project', ['name', 'description'])->find($limit, $offset);
+//
+SELECT * FROM  (
+ SELECT VIRTUAL.*, ROWNUM ROWOFFSET FROM  (
+   SELECT `name`, `description` FROM `project`
+ ) VIRTUAL
+) WHERE ROWNUM <= ? AND ROWOFFSET >= ?
+```
 
 ## Database Support [![Build Status](https://travis-ci.org/marcioAlmada/redsql.png?branch=master)](https://travis-ci.org/marcioAlmada/redsql)
 
