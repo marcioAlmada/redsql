@@ -49,17 +49,25 @@ class Finder
 
     public function find($limit = null, $offset = null, $sql_append = '')
     {
+        $this->sql .= " {$sql_append} ";
         $this->applyLimitAndOffset($limit, $offset);
-        $this->sql .= $sql_append;
         $rows =  R::getAll($this->sql, $this->values);
 
         return R::convertToBeans($this->type, $rows);
     }
 
     public function findFirst()
-    {   
-        $results = $this->find(1, 0);
+    {
+        $results = $this->find(1, 0, ' ORDER BY '. $this->writer->esc('id') .' ASC ');
+
         return reset($results);
+    }
+
+    public function findLast()
+    {
+        $results = $this->find(1, 0, ' ORDER BY '. $this->writer->esc('id') .' DESC ');
+
+        return end($results);
     }
 
     protected function applyLimitAndOffset($limit = null, $offset = null)
