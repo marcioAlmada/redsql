@@ -82,12 +82,11 @@ class Finder
 
     protected function bootstrapSql($type, array $fields = null)
     {
-        if(!$fields) {
+        if (!$fields) {
             $fields = ['*'];
-        }
-        else {
+        } else {
             array_unshift($fields, 'id');
-            array_walk($fields, function(&$field){
+            array_walk($fields, function (&$field) {
                $field = $this->writer->esc($field);
             });
         }
@@ -99,7 +98,7 @@ class Finder
 
     public function __call($field, $arguments)
     {
-        return $this->createConditionOrFail($field, $arguments);
+        return $this->applyFilterOrFail($field, $arguments);
     }
 
     public function __get($token)
@@ -107,7 +106,7 @@ class Finder
         return $this->applyFilter($token, []);
     }
 
-    protected function createConditionOrFail($field, $arguments)
+    protected function applyFilterOrFail($field, $arguments)
     {
         if ($this->isExpressModeOn()) { $this->AND; }
         list($token, $values) = $this->solveFilterArgs($arguments);
@@ -119,7 +118,7 @@ class Finder
 
     protected function solveFilterArgs($args)
     {
-        if (1 === count($args)) {
+        if (1 == count($args)) {
             return ['=', $args[0]];
         }
 
@@ -130,11 +129,11 @@ class Finder
     {
         $Filter = (new FilterResolver)->getFilterInstanceOrFail($token);
 
-        if(false !== $Filter->validate($parameters)){
-            if(!$bypass && !$this->where){
+        if (false !== $Filter->validate($parameters)) {
+            if (!$bypass && !$this->where) {
                 $this->sql .= " WHERE ";
                 $this->where = true;
-            }        
+            }
             $Filter->apply($this->sql, $this->values, $parameters);
             $this->turnExpressModeOff();
         }

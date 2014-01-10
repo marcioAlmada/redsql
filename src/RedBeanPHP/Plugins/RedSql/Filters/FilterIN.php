@@ -15,8 +15,7 @@ class FilterIN extends GenericFilter
         if (!is_array($parameters['value'])) {
             throw new \InvalidArgumentException("IN expects array of values for comparison.");
         }
-        if(!count($parameters['value']))
-        {
+        if (!count($parameters['value'])) {
             return false;
         }
     }

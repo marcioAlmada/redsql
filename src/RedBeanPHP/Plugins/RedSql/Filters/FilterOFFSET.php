@@ -21,9 +21,7 @@ class FilterOFFSET implements FilterInterface
         if ($writer instanceof RedBean_QueryWriter_Oracle) {  // use oracle ROWOFFSET as a polyfill
             $parameters['value']++;
             $sql_reference .= " AND ROWOFFSET >= ? ";
-        }
-        else
-        {
+        } else {
             $sql_reference .= " OFFSET ? ";
         }
         $values_reference[] = $parameters['value'];
