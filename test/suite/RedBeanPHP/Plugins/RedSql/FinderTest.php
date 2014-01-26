@@ -165,8 +165,21 @@ abstract class FinderTest extends \PHPUnit_Framework_TestCase
      */
     public function supportsInOperator()
     {
-        $this->assertCount(3, R::redsql('genius')->profession('in', ['cryptanalyst','theoretical physicist','neurologist'])->find());
-        $this->assertCount(3, R::redsql('genius')->NOT->profession('in', ['writer', 'painter'])->find());
+        $this->assertCount(3,
+            R::redsql('genius')
+                ->profession('in', ['cryptanalyst','theoretical physicist','neurologist'])
+                ->find());
+
+        $this->assertCount(3,
+            R::redsql('genius')
+                ->NOT->profession('in', ['writer', 'painter'])
+                ->find());
+
+        $this->assertCount(3,
+            R::redsql('genius')
+                ->birth('>', 1853)
+                ->profession('in', ['cryptanalyst','theoretical physicist','neurologist'])
+                ->find());
     }
 
     /**

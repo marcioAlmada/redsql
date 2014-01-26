@@ -25,6 +25,6 @@ class FilterIN extends GenericFilter
         $values = $parameters['value'];
         $field = $parameters['field'];
         $sql_reference .= " {$field} {$this->operator} (".R::genSlots($values).") ";
-        $values_reference = $values_reference + $values;
+        $values_reference = array_merge($values_reference, $values);
     }
 }
