@@ -18,6 +18,6 @@ class FilterBETWEEN extends GenericFilter
     public function apply(&$sql_reference, array &$values_reference, array $parameters)
     {
         $sql_reference .= " {$parameters['field']} {$this->operator} ? AND ? ";
-        $values_reference = $values_reference + $parameters['value'];
+        $values_reference = array_merge($values_reference, $parameters['value']);
     }
 }
