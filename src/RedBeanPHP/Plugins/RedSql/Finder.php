@@ -59,7 +59,7 @@ class Finder
     public function findFirst()
     {
         $results = $this->find(1, 0, ' ORDER BY '. $this->writer->esc('id') .' ASC ');
-        if(count($results)) {
+        if (count($results)) {
             $bean = reset($results);
         } else {
             $bean = R::dispense( $this->type );
@@ -71,7 +71,7 @@ class Finder
     public function findLast()
     {
         $results = $this->find(1, 0, ' ORDER BY ' . $this->writer->esc('id') . ' DESC ');
-        if(count($results)) {
+        if (count($results)) {
             $bean = end($results);
         } else {
             $bean = R::dispense( $this->type );
@@ -100,7 +100,6 @@ class Finder
                $field = $this->writer->esc($field);
             });
         }
-
         $table = $this->writer->esc($type);
         $fields = implode($fields, ', ');
         $this->sql = "SELECT {$fields} FROM {$table}";
@@ -138,7 +137,6 @@ class Finder
     protected function applyFilter($token, array $parameters, $bypass = false)
     {
         $Filter = (new FilterResolver)->getFilterInstanceOrFail($token);
-
         if (false !== $Filter->validate($parameters)) {
             if (!$bypass && !$this->where) {
                 $this->sql .= " WHERE ";

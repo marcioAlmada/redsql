@@ -321,6 +321,7 @@ abstract class FinderTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals($this->data[0]['name'], R::redsql('genius', ['name'])->findFirst()->name);
         $this->assertEquals(1, R::redsql('genius', ['id'])->findFirst()->id);
+
         $null_object = R::redsql('genius', ['id'])->name('')->findFirst();
         $this->assertCount(1, $null_object);
         $this->assertEquals(0, $null_object->id);
