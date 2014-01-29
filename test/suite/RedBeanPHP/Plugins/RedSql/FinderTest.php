@@ -320,7 +320,10 @@ abstract class FinderTest extends \PHPUnit_Framework_TestCase
     public function findFirst()
     {
         $this->assertEquals($this->data[0]['name'], R::redsql('genius', ['name'])->findFirst()->name);
-        $this->assertEquals(1, R::redsql('genius', ['name'])->findFirst()->id);
+        $this->assertEquals(1, R::redsql('genius', ['id'])->findFirst()->id);
+        $null_object = R::redsql('genius', ['id'])->name('')->findFirst();
+        $this->assertCount(1, $null_object);
+        $this->assertEquals(0, $null_object->id);
     }
 
     /**
@@ -330,6 +333,10 @@ abstract class FinderTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(end($this->data)['name'], R::redsql('genius', ['name'])->findLast()->name);
         $this->assertEquals(count($this->data), R::redsql('genius', ['name'])->findLast()->id);
+
+        $null_object = R::redsql('genius', ['id'])->name('')->findLast();
+        $this->assertCount(1, $null_object);
+        $this->assertEquals(0, $null_object->id);
     }
 
     protected function createFixtures()

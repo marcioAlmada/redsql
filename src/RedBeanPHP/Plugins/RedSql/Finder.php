@@ -59,15 +59,25 @@ class Finder
     public function findFirst()
     {
         $results = $this->find(1, 0, ' ORDER BY '. $this->writer->esc('id') .' ASC ');
+        if(count($results)) {
+            $bean = reset($results);
+        } else {
+            $bean = R::dispense( $this->type );
+        }
 
-        return reset($results);
+        return $bean;
     }
 
     public function findLast()
     {
-        $results = $this->find(1, 0, ' ORDER BY '. $this->writer->esc('id') .' DESC ');
+        $results = $this->find(1, 0, ' ORDER BY ' . $this->writer->esc('id') . ' DESC ');
+        if(count($results)) {
+            $bean = end($results);
+        } else {
+            $bean = R::dispense( $this->type );
+        }
 
-        return end($results);
+        return $bean;
     }
 
     protected function applyLimitAndOffset($limit = null, $offset = null)
