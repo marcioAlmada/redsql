@@ -7,12 +7,12 @@ use RedBean_Facade as R;
 abstract class FinderTest extends \PHPUnit_Framework_TestCase
 {
     protected $data = [
-        ['name' => 'Alan Turing',         'birth' => 1912, 'death' => 1954, 'profession' => 'cryptanalyst'],
-        ['name' => 'Albert Einstein',     'birth' => 1879, 'death' => 1955, 'profession' => 'theoretical physicist'],
-        ['name' => 'Machado de Assis',    'birth' => 1839, 'death' => 1908, 'profession' => 'writer'],
-        ['name' => 'Sigmund Freud',       'birth' => 1856, 'death' => 1939, 'profession' => 'neurologist'],
-        ['name' => 'Vincent van Gogh',    'birth' => 1853, 'death' => 1890, 'profession' => 'painter'],
-        ['name' => 'William Shakespeare', 'birth' => 1564, 'death' => 1616, 'profession' => 'writer']
+        ['name' => 'Alan Turing',         'birth' => 1912, 'death' => 1954, 'profession' => 'cryptanalyst', 'deleted' => true ],
+        ['name' => 'Albert Einstein',     'birth' => 1879, 'death' => 1955, 'profession' => 'physicist',    'deleted' => false],
+        ['name' => 'Machado de Assis',    'birth' => 1839, 'death' => 1908, 'profession' => 'writer',       'deleted' => false],
+        ['name' => 'Sigmund Freud',       'birth' => 1856, 'death' => 1939, 'profession' => 'neurologist',  'deleted' => false],
+        ['name' => 'Vincent van Gogh',    'birth' => 1853, 'death' => 1890, 'profession' => 'painter',      'deleted' => false],
+        ['name' => 'William Shakespeare', 'birth' => 1564, 'death' => 1616, 'profession' => 'writer',       'deleted' => true ]
     ];
 
     public function setUp()
@@ -93,6 +93,15 @@ abstract class FinderTest extends \PHPUnit_Framework_TestCase
     public function supportsEqualsOperator()
     {
         $this->assertCount(1, R::redsql('genius')->name('=', 'Albert Einstein')->find());
+        $this->assertCount(1, R::redsql('genius')->name('Albert Einstein')->find());
+
+        $count = (count($this->data) - 4);
+        $this->assertCount($count, R::redsql('genius')->deleted('=', true )->find());
+        $this->assertCount($count, R::redsql('genius')->deleted(true)->find());
+
+        $count = (count($this->data) - 2);
+        $this->assertCount($count, R::redsql('genius')->deleted('=', false)->find());
+        $this->assertCount($count, R::redsql('genius')->deleted(false)->find());
     }
 
     /**
@@ -100,10 +109,20 @@ abstract class FinderTest extends \PHPUnit_Framework_TestCase
      */
     public function supportsNotEqualsOperators()
     {
-        $count = count($this->data) -1;
+        $count = (count($this->data) - 1);
         $this->assertCount($count, R::redsql('genius')->name('!=', 'Alan Turing')->find());
         $this->assertCount($count, R::redsql('genius')->name('<>', 'Alan Turing')->find());
         $this->assertCount($count, R::redsql('genius')->NOT->name('=', 'Alan Turing')->find());
+
+        $count = (count($this->data) - 4);
+        $this->assertCount($count, R::redsql('genius')->deleted('!=', false)->find());
+        $this->assertCount($count, R::redsql('genius')->deleted('<>', false)->find());
+        $this->assertCount($count, R::redsql('genius')->NOT->deleted( false)->find());
+
+        $count = (count($this->data) - 2);
+        $this->assertCount($count, R::redsql('genius')->deleted('!=', true )->find());
+        $this->assertCount($count, R::redsql('genius')->deleted('<>', true )->find());
+        $this->assertCount($count, R::redsql('genius')->NOT->deleted( true )->find());
     }
 
     /**
@@ -167,7 +186,7 @@ abstract class FinderTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertCount(3,
             R::redsql('genius')
-                ->profession('in', ['cryptanalyst','theoretical physicist','neurologist'])
+                ->profession('in', ['cryptanalyst', 'physicist', 'neurologist'])
                 ->find());
 
         $this->assertCount(3,
@@ -178,7 +197,7 @@ abstract class FinderTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(3,
             R::redsql('genius')
                 ->birth('>', 1853)
-                ->profession('in', ['cryptanalyst','theoretical physicist','neurologist'])
+                ->profession('in', ['cryptanalyst', 'physicist', 'neurologist'])
                 ->find());
     }
 
