@@ -38,7 +38,7 @@ class Finder
      */
     protected $express = false;
 
-    public function __construct($type, array $fields = null)
+    public function __construct($type, array $fields = [])
     {
         R::dispense($type);
         $this->type = $type;
