@@ -70,6 +70,26 @@ class Finder
         return end($results);
     }
 
+    public function findAlike(array $conditions, $limit = null, $offset = null) {
+        foreach ($conditions as $field => $value) {
+            switch ( gettype($value) ) {
+                case 'array':
+                    $this->$field('IN', $value);
+                    break;
+                case 'string':
+                    if( false !== strpos($value, '%') ) {
+                        $this->$field('ILIKE', $value);
+                        break;
+                    }
+                default:
+                    $this->$field($value);
+                    break;
+            }
+        }
+
+        return $this->find($limit, $offset);
+    }
+
     protected function applyLimitAndOffset($limit = null, $offset = null)
     {
         if (null !== $limit) {

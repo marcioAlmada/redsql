@@ -334,6 +334,18 @@ abstract class FinderTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(false, R::redsql('genius', ['id'])->name('')->findLast());
     }
 
+    /**
+     * @test
+     */
+    public function findAlike()
+    {
+        $this->assertCount(1, R::redsql('genius')->findAlike([
+            'profession' => 'crypt%',
+            'birth' => 1912,
+            'death' => [1954, 1955]
+        ]));
+    }
+
     protected function createFixtures()
     {
         array_map(
