@@ -220,7 +220,7 @@ class Finder
      * @param  array $args filter arguments
      * @return array filter token and filter value ['<token>', '<value|s>']
      */
-    protected function solveFilterArgs($args)
+    protected function solveFilterArgs(array $args)
     {
         if (1 == count($args)) {
             return ['=', $args[0]];
