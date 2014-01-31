@@ -123,10 +123,9 @@ class Finder
             $fields = ['*'];
         } else {
             array_unshift($fields, 'id');
-            $fields = array_unique(array_map("strtolower", $fields)); // avoid ambiguous column naming
-            array_walk($fields, function (&$field) {
-               $field = $this->writer->esc($field);
-            });
+            $fields = array_unique(array_map(function($field) {
+                return $this->writer->esc(strtolower($field));
+            }, $fields));
         }
         $table = $this->writer->esc($type);
         $fields = implode($fields, ', ');
