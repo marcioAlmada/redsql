@@ -353,7 +353,9 @@ abstract class FinderTest extends \PHPUnit_Framework_TestCase
      * @test
      */
     public function finderToString() {
-        $this->assertEquals("SELECT * FROM `genius` -> []", (string) R::redsql('genius'));
+        $sqldump = (string) R::redsql('genius');
+        $this->assertStringStartsWith('SELECT * FROM', $sqldump);
+        $this->assertStringEndsWith('-> []', $sqldump);
     }
 
     protected function createFixtures()
