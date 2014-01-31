@@ -349,6 +349,13 @@ abstract class FinderTest extends \PHPUnit_Framework_TestCase
         ]));
     }
 
+    /**
+     * @test
+     */
+    public function finderToString() {
+        $this->assertEquals("SELECT * FROM `genius` -> []", (string) R::redsql('genius'));
+    }
+
     protected function createFixtures()
     {
         array_map(

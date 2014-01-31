@@ -47,6 +47,20 @@ class Finder
         $this->turnExpressModeOff();
     }
 
+    public function __call($field, $arguments)
+    {
+        return $this->applyFilterOrFail($field, $arguments);
+    }
+
+    public function __get($token)
+    {
+        return $this->applyFilter($token, []);
+    }
+
+    public function __toString() {
+        return $this->sql .' -> '. json_encode($this->values);
+    }
+
     public function find($limit = null, $offset = null, $sql_append = '')
     {
         $this->sql .= " {$sql_append} ";
@@ -116,16 +130,6 @@ class Finder
         $table = $this->writer->esc($type);
         $fields = implode($fields, ', ');
         $this->sql = "SELECT {$fields} FROM {$table}";
-    }
-
-    public function __call($field, $arguments)
-    {
-        return $this->applyFilterOrFail($field, $arguments);
-    }
-
-    public function __get($token)
-    {
-        return $this->applyFilter($token, []);
     }
 
     protected function applyFilterOrFail($field, $arguments)
