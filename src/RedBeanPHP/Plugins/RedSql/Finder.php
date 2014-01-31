@@ -71,12 +71,15 @@ class Finder
     }
 
     public function findAlike(array $conditions, $limit = null, $offset = null) {
-        foreach ($conditions as $field => $value) {
+        array_walk($conditions, function($value, $field){
             switch ( gettype($value) ) {
                 case 'array':
                     $this->$field('IN', $value);
                     break;
                 case 'string':
+                    if(empty(trim($value))) {
+                        break;
+                    }
                     if( false !== strpos($value, '%') ) {
                         $this->$field('ILIKE', $value);
                         break;
@@ -85,7 +88,7 @@ class Finder
                     $this->$field($value);
                     break;
             }
-        }
+        });
 
         return $this->find($limit, $offset);
     }

@@ -341,8 +341,11 @@ abstract class FinderTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertCount(1, R::redsql('genius')->findAlike([
             'profession' => 'crypt%',
-            'birth' => 1912,
-            'death' => [1954, 1955]
+            'birth'      => 1912,
+            'death'      => [1954, 1955],
+            'name'       => '',
+            'name'       => ' ',
+            'deleted'    => true
         ]));
     }
 
