@@ -4,6 +4,9 @@ RedSQL
 [![Build Status](https://travis-ci.org/marcioAlmada/redsql.png?branch=master)](https://travis-ci.org/marcioAlmada/redsql)
 [![Coverage Status](https://coveralls.io/repos/marcioAlmada/redsql/badge.png?branch=master)](https://coveralls.io/r/marcioAlmada/redsql?branch=master)
 [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/marcioAlmada/redsql/badges/quality-score.png?s=e5130c16fe66958344c76d632b96318525234af9)](https://scrutinizer-ci.com/g/marcioAlmada/redsql/)
+[![Latest Stable Version](https://poser.pugx.org/redsql/redsql/v/stable.png)](https://packagist.org/packages/redsql/redsql)
+[![Total Downloads](https://poser.pugx.org/redsql/redsql/downloads.png)](https://packagist.org/packages/redsql/redsql)
+[![License](https://poser.pugx.org/redsql/redsql/license.png)](https://packagist.org/packages/redsql/redsql)
 
 Programmatic and database agnostic SQL helper for RedBean delivered as a plugin.
 
