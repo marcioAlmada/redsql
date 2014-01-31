@@ -57,7 +57,8 @@ class Finder
         return $this->applyFilter($token, []);
     }
 
-    public function __toString() {
+    public function __toString()
+    {
         return $this->sql .' -> '. json_encode($this->values);
     }
 
@@ -71,30 +72,31 @@ class Finder
     }
 
     public function findFirst()
-    {        
+    {
         $results = $this->find(1, 0, ' ORDER BY '. $this->writer->esc('id') .' ASC ');
-        
+
         return reset($results);
     }
 
     public function findLast()
     {
         $results = $this->find(1, 0, ' ORDER BY ' . $this->writer->esc('id') . ' DESC ');
-        
+
         return end($results);
     }
 
-    public function findAlike(array $conditions, $limit = null, $offset = null) {
-        array_walk($conditions, function($value, $field){
+    public function findAlike(array $conditions, $limit = null, $offset = null)
+    {
+        array_walk($conditions, function ($value, $field) {
             switch ( gettype($value) ) {
                 case 'array':
                     $this->$field('IN', $value);
                     break;
                 case 'string':
-                    if('' == trim($value)) {
+                    if ('' == trim($value)) {
                         break;
                     }
-                    if( false !== strpos($value, '%') ) {
+                    if ( false !== strpos($value, '%') ) {
                         $this->$field('ILIKE', $value);
                         break;
                     }
@@ -123,7 +125,7 @@ class Finder
             $fields = ['*'];
         } else {
             array_unshift($fields, 'id');
-            $fields = array_unique(array_map(function($field) {
+            $fields = array_unique( array_map(function ($field) {
                 return $this->writer->esc(strtolower($field));
             }, $fields));
         }
