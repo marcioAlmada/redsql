@@ -8,28 +8,38 @@ class Finder
 {
     /**
      * Query writer
+     *
      * @var RedBean_QueryWriter_AQueryWriter
      */
     protected $writer;
 
     /**
      * Bean type
+     *
      * @var string
      */
     protected $type;
 
     /**
      * SQL string
+     *
      * @var string
      */
     protected $sql = '';
 
     /**
      * SQL values
+     *
      * @var array
      */
     protected $values = [];
 
+    /**
+     * Flag that informs if WHERE statement is already present.
+     * Needs to be removed later.
+     *
+     * @var boolean
+     */
     protected $where = false;
 
     /**
@@ -38,6 +48,12 @@ class Finder
      */
     protected $express = false;
 
+    /**
+     * Instances a new finder
+     *
+     * @param string $type   bean type
+     * @param array  $fields fields to be selected
+     */
     public function __construct($type, array $fields = [])
     {
         R::dispense($type);
@@ -47,11 +63,22 @@ class Finder
         $this->turnExpressModeOff();
     }
 
+    /**
+     * Applies argumented filters
+     *
+     * @param string $field     database field name
+     * @param mixed  $arguments arguments for filter
+     */
     public function __call($field, $arguments)
     {
         return $this->applyFilterOrFail($field, $arguments);
     }
 
+    /**
+     * Applies non argumented filters
+     *
+     * @param string $token token
+     */
     public function __get($token)
     {
         return $this->applyFilter($token, []);
@@ -62,6 +89,14 @@ class Finder
         return $this->sql .' -> '. json_encode($this->values);
     }
 
+    /**
+     * Triggers database interaction and brings results
+     *
+     * @param  integer $limit      SQL limit
+     * @param  integer $offset     SQL offset
+     * @param  string  $sql_append arbitrary sql snippets
+     * @return array   array of RedBean_OODBBean
+     */
     public function find($limit = null, $offset = null, $sql_append = '')
     {
         $this->sql .= " {$sql_append} ";
@@ -71,6 +106,11 @@ class Finder
         return R::convertToBeans($this->type, $rows);
     }
 
+    /**
+     * Triggers database interaction and brings first match
+     *
+     * @return RedBean_OODBBean
+     */
     public function findFirst()
     {
         $results = $this->find(1, 0, ' ORDER BY '. $this->writer->esc('id') .' ASC ');
@@ -78,6 +118,11 @@ class Finder
         return reset($results);
     }
 
+    /**
+     * Triggers database interaction and brings last match
+     *
+     * @return RedBean_OODBBean
+     */
     public function findLast()
     {
         $results = $this->find(1, 0, ' ORDER BY ' . $this->writer->esc('id') . ' DESC ');
@@ -85,6 +130,11 @@ class Finder
         return end($results);
     }
 
+    /**
+     * Triggers database interaction and brings last result
+     *
+     * @return RedBean_OODBBean
+     */
     public function findAlike(array $conditions, $limit = null, $offset = null)
     {
         array_walk($conditions, function ($value, $field) {
@@ -109,6 +159,12 @@ class Finder
         return $this->find($limit, $offset);
     }
 
+    /**
+     * Applies LIMIT and OFFSET filters to SQL
+     *
+     * @param integer $limit  SQL limit
+     * @param integer $offset SQL offset
+     */
     protected function applyLimitAndOffset($limit = null, $offset = null)
     {
         if (null !== $limit) {
@@ -119,6 +175,12 @@ class Finder
         }
     }
 
+    /**
+     * Initializes finder SQL
+     *
+     * @param string $type   bean type
+     * @param array  $fields fields to be selected
+     */
     protected function bootstrapSql($type, array $fields = null)
     {
         if (!$fields) {
@@ -134,6 +196,14 @@ class Finder
         $this->sql = "SELECT {$fields} FROM {$table}";
     }
 
+    /**
+     * Solves filter arguments and applies SQL filter
+     *
+     * @param  string            $field     database field name
+     * @param  array             $arguments filter arguments
+     * @return self
+     * @throws \RuntimeException If Filter is not found or if filter arguments are not correct
+     */
     protected function applyFilterOrFail($field, $arguments)
     {
         if ($this->isExpressModeOn()) { $this->AND; }
@@ -144,6 +214,12 @@ class Finder
         return $this;
     }
 
+    /**
+     * Solves filter arguments based on RedSql conventions
+     *
+     * @param  array $args filter arguments
+     * @return array filter token and filter value ['<token>', '<value|s>']
+     */
     protected function solveFilterArgs($args)
     {
         if (1 == count($args)) {
@@ -153,6 +229,14 @@ class Finder
         return [$args[0], $args[1]];
     }
 
+    /**
+     * Applies SQl filter
+     *
+     * @param  string  $token      filter identifier
+     * @param  array   $parameters filter arguments
+     * @param  boolean $bypass     flag to bypass WHERE check
+     * @return self
+     */
     protected function applyFilter($token, array $parameters, $bypass = false)
     {
         $Filter = (new FilterResolver)->getFilterInstanceOrFail($token);
@@ -168,16 +252,25 @@ class Finder
         return $this;
     }
 
+    /**
+     * Enables express syntax
+     */
     protected function turnExpressModeOn()
     {
         $this->express = true;
     }
 
+    /**
+     * Disables express syntax
+     */
     protected function turnExpressModeOff()
     {
         $this->express = false;
     }
 
+    /**
+     * Checks if express syntax mode is active
+     */
     protected function isExpressModeOn()
     {
         return $this->express;
