@@ -91,7 +91,7 @@ class Finder
                     $this->$field('IN', $value);
                     break;
                 case 'string':
-                    if(empty(trim($value))) {
+                    if('' == trim($value)) {
                         break;
                     }
                     if( false !== strpos($value, '%') ) {
