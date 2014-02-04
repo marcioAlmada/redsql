@@ -17,7 +17,7 @@
         "gabordemooij/redbean": "~3.5"
     },
     "autoload": {
-        "psr-0": { "RedBeanPHP": "src" },
+        "psr-4": { "RedBeanPHP\\Plugins\\RedSql\\": "src/RedSql/" },
         "files" : ["bootstrap.php"]
     }
 }

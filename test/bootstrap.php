@@ -1,3 +1,3 @@
 <?php
 $loader = include __DIR__ . '/../vendor/autoload.php';
-$loader->add('RedBeanPHP', __DIR__ . '/suite');
+$loader->addPsr4('RedBeanPHP\\Plugins\\RedSql\\', __DIR__ . '/suite/RedSql/');
