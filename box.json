@@ -1,0 +1,6 @@
+{
+    "directories": "src",
+    "main": "bootstrap.php",
+    "output": "dist/redsql.phar",
+    "stub": true
+}
