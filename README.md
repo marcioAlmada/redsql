@@ -46,11 +46,7 @@ include 'path/to/redsql.phar';
 RedSQL public API is ~~awsome~~ fluid and completely achieved with PHP ~~wizardry~~ magic.
 So, given the following table structure:
 
-<table>
-  <tr>
-    <th>id</th><th>name</th><th>description</th><th>priority</th><th>created_at</th>
-  </tr>
-</table>
+![table](https://dl.dropboxusercontent.com/u/49549530/redsql-project-table.png)
 
 Express syntax:
 
