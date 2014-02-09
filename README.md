@@ -20,6 +20,7 @@ Programmatic and database agnostic SQL helper for RedBean delivered as a plugin.
 
 ## Installation
 
+### With Composer
 ```json
 {
   "require": {
@@ -29,6 +30,16 @@ Programmatic and database agnostic SQL helper for RedBean delivered as a plugin.
 ```
 
 Or just use your terminal: `composer require redsql/redsql:dev-master` :8ball:
+
+### Phar (single file)
+
+For the folks that are not using composer yet (why u no?) you can download
+[redsql.phar](https://github.com/marcioAlmada/redsql/raw/master/dist/redsql.phar)
+single distribution file and include it on your project:
+
+```php
+include 'path/to/redsql.phar';
+```
 
 ## Usage
 
