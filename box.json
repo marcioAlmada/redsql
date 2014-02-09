@@ -1,6 +1,7 @@
 {
-    "directories": "src",
-    "main": "bootstrap.php",
+    "main": "dist/bootstrap.php",
+    "directories": ["src", "vendor/composer"],
+    "files":["vendor/autoload.php", "bootstrap.php"],
     "output": "dist/redsql.phar",
     "stub": true
 }
