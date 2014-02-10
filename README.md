@@ -12,11 +12,11 @@ Programmatic and database agnostic SQL helper for RedBean delivered as a plugin.
 
 # Features
 
-* Express syntax
-* Dynamic API: available methods are just a mirror of your table (bean) structure.
-* Programmatic: avoid nasty string manipulations to achieve dynamic SQL construction.
-* Database agnostic: SQL inconsistencies across databases (aka Oracle) like LIMIT and OFFSET are gracefully normalized.
-* Lazy field loading: restrict wich fields you want in your queries without code faffing.
+- Express syntax
+- Dynamic API: available methods are just a mirror of your table (bean) structure.
+- Programmatic: avoid nasty string manipulations to achieve dynamic SQL construction.
+- Database agnostic: SQL inconsistencies across databases (aka Oracle) like LIMIT and OFFSET are gracefully normalized.
+- Lazy field loading: restrict wich fields you want to select.
 
 ## Installation
 
@@ -103,6 +103,12 @@ If build badge is green it means RedSql latest version is working on:
 - CUBRID
 - ~~MSSQL Server~~ (as soon as RedBean supports it)
 
+## Roadmap
+
+- [TODO] Beans collection
+- [TODO] Relationships
+~~ [DONE] ~~ Single file release (phar)
+
 ## Contributing
  
 0. Fork redsql
@@ -112,9 +118,6 @@ If build badge is green it means RedSql latest version is working on:
 0. Back to step 3
 
 When everything is ready, create a pull request to develop branch :)
-
-> You will need to setup your environment for each specific database you want to cover, with exception of FinderSQLiteTest which uses a temporary database.
-
 
 PS: This plugin follows specification discussed in [#311](https://github.com/gabordemooij/redbean/issues/311).
 
