@@ -3,18 +3,20 @@
     "type": "package",
     "description": "Programmatic and database agnostic SQL helper for RedBean delivered as a plugin.",
     "keywords": ["php", "redbean plugin", "redsql"],
-    "homepage": "",
     "license": "MIT",
     "authors": [
         {
             "name": "Márcio Almada",
             "email": "marcio.web2@gmail.com",
-            "homepage": ""
+            "homepage": "https://www.github.com/marcioAlmada"
         }
     ],
     "require": {
         "php": ">=5.4.0",
         "gabordemooij/redbean": "~3.5"
+    },
+    "require-dev": {
+        "herrera-io/box" : "~1.5"
     },
     "autoload": {
         "psr-4": { "RedBeanPHP\\Plugins\\RedSql\\": "src/RedSql/" },
