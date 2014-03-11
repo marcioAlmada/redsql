@@ -107,7 +107,7 @@ If build badge is green it means RedSql latest version is working on:
 
 - [TODO] Beans collection
 - [TODO] Relationships
-~~ [DONE] ~~ Single file release (phar)
+- ~~[DONE]~~ Single file release (phar)
 
 ## Contributing
  
