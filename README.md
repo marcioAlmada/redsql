@@ -24,12 +24,12 @@ Programmatic and database agnostic SQL helper for RedBean delivered as a plugin.
 ```json
 {
   "require": {
-    "redsql/redsql": "dev-master"
+    "redsql/redsql": "~1.0"
   }
 }
 ```
 
-Or just use your terminal: `composer require redsql/redsql:dev-master` :8ball:
+Or just use your terminal: `composer require redsql/redsql:~1.0` :8ball:
 
 ### Phar (single file)
 
@@ -105,6 +105,7 @@ If build badge is green it means RedSql latest version is working on:
 
 ## Roadmap
 
+- [TODO] RedBean ~4.0 support
 - [TODO] Beans collection
 - [TODO] Relationships
 - ~~[DONE]~~ Single file release (phar)
