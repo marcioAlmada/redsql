@@ -105,10 +105,10 @@ If build badge is green it means RedSql latest version is working on:
 
 ## Roadmap
 
-- [TODO] RedBean ~4.0 support
-- [TODO] Beans collection
-- [TODO] Relationships
-- ~~[DONE]~~ Single file release (phar)
+- [ ] RedBean ~4.0 support
+- [ ] Beans collection
+- [ ] Relationships
+- [x] Single file release (phar)
 
 ## Contributing
  
@@ -121,5 +121,3 @@ If build badge is green it means RedSql latest version is working on:
 When everything is ready, create a pull request to develop branch :)
 
 PS: This plugin follows specification discussed in [#311](https://github.com/gabordemooij/redbean/issues/311).
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/marcioAlmada/redsql/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
