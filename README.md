@@ -8,7 +8,8 @@ RedSQL
 [![Total Downloads](https://poser.pugx.org/redsql/redsql/downloads.png)](https://packagist.org/packages/redsql/redsql)
 [![License](https://poser.pugx.org/redsql/redsql/license.png)](https://packagist.org/packages/redsql/redsql)
 
-Programmatic and database agnostic SQL helper for RedBean delivered as a plugin.
+RedSQL is a database agnostic helper for RedBean delivered as a plugin.
+It's a tiny, fun and predictable DSL to create SQL queries in a programmatic way.
 
 # Features
 
@@ -17,6 +18,7 @@ Programmatic and database agnostic SQL helper for RedBean delivered as a plugin.
 - Programmatic: avoid nasty string manipulations to achieve dynamic SQL construction.
 - Database agnostic: SQL inconsistencies across databases (aka Oracle) like LIMIT and OFFSET are gracefully normalized.
 - Lazy field loading: restrict wich fields you want to select.
+- You will learn **RedSQL** in 12 seconds.
 
 ## Installation
 
@@ -57,6 +59,14 @@ $projects =
         ->priority('>', 5)
         ->created_at('between', [$time1, $time2])
         ->find($limit, $offset);
+
+// parses to:
+
+SELECT * FROM `project`
+WHERE name LIKE ?
+AND priority > ?
+AND created_at BETWEEN ? AND ?
+LIMIT ? OFFSET ?
 ```
 
 \+ Syntatic sugar:
@@ -70,13 +80,26 @@ $projects =
             ->code('in', [007, 51])->AND->NOT->created_at('between', [$time1, $time2])
         ->CLOSE
         ->find($limit, $offset)
+
+// parses to:
+
+SELECT * FROM `project`
+WHERE name LIKE ? 
+AND priority > ? 
+OR (
+    code IN (?,?)
+    AND  NOT  created_at BETWEEN ? AND ?
+)
+LIMIT ? OFFSET ?
 ```
 
 Select specific fields:
 
 ```php
 $projects = R::redsql('project', ['name', 'description'])->find($limit, $offset);
-//
+
+// parses to:
+
 SELECT `name`, `description` FROM `project` LIMIT ? OFFSET ?
 ```
 
@@ -84,7 +107,9 @@ SELECT `name`, `description` FROM `project` LIMIT ? OFFSET ?
 
 ```php
 $projects = R::redsql('project', ['name', 'description'])->find($limit, $offset);
-//
+
+// parses to:
+
 SELECT * FROM  (
  SELECT VIRTUAL.*, ROWNUM ROWOFFSET FROM  (
    SELECT `name`, `description` FROM `project`
