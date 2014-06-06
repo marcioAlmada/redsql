@@ -128,7 +128,7 @@ Returns a configured `RedBeanPHP\Plugins\RedSql\Finder` instance restricted to a
 $project_query = R::redsql('project');
 ```
 
-New conditions can be queued later:
+New conditions can be queued lazily:
 
 ```php
 $project_query->created_at('>', '2014-04-03 00:00:00');
@@ -145,7 +145,7 @@ SELECT `id`, `name`, `priority` FROM `project`
 
 ### find(*$limit = null, $offset = null*)
 
-Fetches an array of `OODBBean` instances from database:
+Fetches an array of `RedBean_OODBBean` instances from database:
 
 ```php
 $projects = R::redsql('project')->NOT->priority(3)->find();
@@ -184,7 +184,9 @@ $projects = R::redsql('project')->findAlike([
     'priority' => [1, 2, 3]
     ], $limit, $offset
 );
+
 //
+
 SELECT *
 FROM `project`
 WHERE  `name` = ? 
@@ -194,14 +196,16 @@ LIMIT ?  OFFSET ?
 ```
 
 ### toString()
-Finder (`RedBeanPHP\Plugins\RedSql\Finder`) can be converted to plain SQL using `(string)` casting or `toString` method:
+Finders `RedBeanPHP\Plugins\RedSql\Finder` can be converted to plain SQL using `(string)` casting or `toString` method:
 
 ```php
 $project_finder = R::redsql('project');
 echo (string) $project_finder;
 $project_finder->NOT->priority(3);
 echo $project_finder->toString();
+
 // >
+
 SELECT * FROM `project`
 SELECT * FROM `project` WHERE  NOT  `priority` = ?
 ```
