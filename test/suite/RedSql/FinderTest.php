@@ -370,4 +370,28 @@ abstract class FinderTest extends \PHPUnit_Framework_TestCase
             $this->data
         );
     }
+
+    /**
+     * @expectedException \RedBean_Exception_Security
+     */
+    public function testFindAlikedInjection()
+    {
+        R::redsql('genius')->findAlike(["profession = ''' OR 1=1 --'" => 'evil']);
+    }
+
+    /**
+     * @expectedException \RedBean_Exception_Security
+     */
+    public function testConditionInjection()
+    {
+        R::redsql('genius')->{"profession = ''' OR 1=1 --'"}('evil')->find();
+    }
+
+    /**
+     * @expectedException \RedBean_Exception_Security
+     */
+    public function testConditionWithOverridedOperatorInjection()
+    {
+        R::redsql('genius')->{"profession = ''' OR 1=1 --'"}('like', 'evil')->find();
+    }
 }
