@@ -13,10 +13,10 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "gabordemooij/redbean": "~3.5"
+        "ext-json": "*"
     },
     "require-dev": {
-        "herrera-io/box" : "~1.5"
+        "gabordemooij/redbean": "~3.5"
     },
     "autoload": {
         "psr-4": { "RedBeanPHP\\Plugins\\RedSql\\": "src/RedSql/" },
