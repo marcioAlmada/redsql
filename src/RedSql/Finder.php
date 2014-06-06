@@ -71,7 +71,10 @@ class Finder
      */
     public function __call($field, $arguments)
     {
-        return $this->applyFilterOrFail($field, $arguments);
+        return $this->applyFilterOrFail(
+            $this->writer->esc($field),
+            $arguments
+        );
     }
 
     /**
