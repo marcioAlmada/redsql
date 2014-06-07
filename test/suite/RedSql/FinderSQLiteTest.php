@@ -11,10 +11,9 @@ use RedBean_Facade as R;
 class FinderSQLiteTest extends FinderTest
 {
 
-    public function setUp()
+    public static function setUpBeforeClass()
     {
         R::setup('sqlite:/tmp/redsql.db');
-        parent::setup();
     }
 
     /**

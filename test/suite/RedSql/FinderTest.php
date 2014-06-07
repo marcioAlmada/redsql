@@ -359,18 +359,6 @@ abstract class FinderTest extends \PHPUnit_Framework_TestCase
         $this->assertStringEndsWith('-> []', $sqldump);
     }
 
-    protected function createFixtures()
-    {
-        array_map(
-            function ($data) {
-                $project = R::dispense('genius');
-                $project->import($data);
-                R::store($project);
-            },
-            $this->data
-        );
-    }
-
     /**
      * @expectedException \RedBean_Exception_Security
      */
@@ -393,5 +381,17 @@ abstract class FinderTest extends \PHPUnit_Framework_TestCase
     public function testConditionWithOverridedOperatorInjection()
     {
         R::redsql('genius')->{"profession = ''' OR 1=1 --'"}('like', 'evil')->find();
+    }
+
+    protected function createFixtures()
+    {
+        array_map(
+            function ($data) {
+                $project = R::dispense('genius');
+                $project->import($data);
+                R::store($project);
+            },
+            $this->data
+        );
     }
 }

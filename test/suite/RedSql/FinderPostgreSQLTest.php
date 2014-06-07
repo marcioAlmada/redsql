@@ -11,9 +11,8 @@ use RedBean_Facade as R;
 class FinderPostgreSQLTest extends FinderTest
 {
 
-    public function setUp()
+    public static function setUpBeforeClass()
     {
         R::setup('pgsql:host=localhost;dbname=redsql','postgres');
-        parent::setup();
     }
 }

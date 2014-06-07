@@ -10,9 +10,8 @@ use RedBean_Facade as R;
 class OracleTest extends FinderTest
 {
 
-    public function setUp()
+    public static function setUpBeforeClass()
     {
         R::setup('oracle:localhost:1521/xe','oracle','oracle');
-        parent::setup();
     }
 }

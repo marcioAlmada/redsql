@@ -11,9 +11,8 @@ use RedBean_Facade as R;
 class FinderMySQLTest extends FinderTest
 {
 
-    public function setUp()
+    public static function setUpBeforeClass()
     {
         R::setup('mysql:host=localhost;dbname=redsql','root');
-        parent::setup();
     }
 }
