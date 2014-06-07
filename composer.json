@@ -21,5 +21,8 @@
     "autoload": {
         "psr-4": { "RedBeanPHP\\Plugins\\RedSql\\": "src/RedSql/" },
         "files" : ["bootstrap.php"]
+    },
+    "autoload-dev": {
+        "psr-4": { "RedBeanPHP\\Plugins\\RedSql\\": "test/suite/RedSql/" }
     }
 }
