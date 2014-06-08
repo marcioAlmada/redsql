@@ -231,18 +231,19 @@ If build badge is green it means RedSql latest version is working on:
 ## Contributing
  
 0. Fork redsql
+0. Clone redsql `git clone git@github.com:marcioAlmada/redsql.git`
 0. Install composer dependencies `$ composer install --prefer-dist`
 0. Run desired unit tests `$ phpunit` or at least `$ phpunit --group sqlite`
 0. Correct bug, implement feature
-0. Back to step 3
+0. Back to step 4
+
+When everything is ready, create a pull request to master branch :)
 
 ## Building
  
-0. Clone redsql
+0. Clone redsql `git clone git@github.com:marcioAlmada/redsql.git`
 0. Install [kherge/php-box](https://github.com/kherge/php-box)
 0. Run `$ box build`
 0. A new phar will be available at `dist` folder
-
-When everything is ready, create a pull request to master branch :)
 
 PS: This plugin follows specification discussed in [#311](https://github.com/gabordemooij/redbean/issues/311).
