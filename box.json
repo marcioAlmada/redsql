@@ -1,7 +1,7 @@
 {
-    "main": "vendor/autoload.php",
-    "directories": ["src", "vendor"],
-    "files":["bootstrap.php"],
+    "main": "bootstrap-phar.php",
+    "directories": ["src"],
+    "files":["bootstrap.php", "LICENSE"],
     "output": "dist/redsql.phar",
     "stub": true
 }
