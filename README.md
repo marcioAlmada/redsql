@@ -155,7 +155,7 @@ SELECT * FROM `project` WHERE  NOT  `priority` = ?
 
 ### findFirst()
 
-Applies `LIMIT` and `ORDER BY ... ASC` statements and fetches a single `RedBean_OODBBean` instance from database:
+Applies `LIMIT` and `ORDER BY ASC` statements and fetches a single `RedBean_OODBBean` instance from database:
 
 ```php
 $project = R::redsql('project')->NOT->priority(3)->findFirst();
@@ -165,7 +165,7 @@ SELECT * FROM `project` WHERE NOT `priority` = ? ORDER BY `id` ASC LIMIT 1 OFFSE
 
 ### findLast()
 
-Applies `LIMIT` and `ORDER BY ... DESC` statements and fetches a single `RedBean_OODBBean` instance from database:
+Applies `LIMIT` and `ORDER BY DESC` statements and fetches a single `RedBean_OODBBean` instance from database:
 
 ```php
 $project = R::redsql('project')->NOT->priority(3)->findLast();
@@ -235,6 +235,13 @@ If build badge is green it means RedSql latest version is working on:
 0. Run desired unit tests `$ phpunit` or at least `$ phpunit --group sqlite`
 0. Correct bug, implement feature
 0. Back to step 3
+
+## Building
+ 
+0. Clone redsql
+0. Install [kherge/php-box](https://github.com/kherge/php-box)
+0. Run `$ box build`
+0. A new phar will be available at `dist` folder
 
 When everything is ready, create a pull request to master branch :)
 
