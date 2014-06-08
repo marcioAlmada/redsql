@@ -247,3 +247,7 @@ When everything is ready, create a pull request to master branch :)
 0. A new phar will be available at `dist` folder
 
 PS: This plugin follows specification discussed in [#311](https://github.com/gabordemooij/redbean/issues/311).
+
+## Copyright
+
+Copyright (c) 2014 Márcio Almada. Distributed under the terms of an MIT-style license. See LICENSE for details.
