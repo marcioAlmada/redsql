@@ -102,9 +102,20 @@ class Finder
      */
     public function find($limit = null, $offset = null, $sql_append = '')
     {
+        
+        // backup state
+        $sql = $this->sql;
+        $values = $this->values;
+
         $this->sql .= " {$sql_append} ";
         $this->applyLimitAndOffset($limit, $offset);
-        $rows =  R::getAll($this->sql, $this->values);
+        $rows = R::getAll($this->sql, $this->values);
+
+        // restore state
+        $this->sql = $sql;
+        $this->values = $values;
+
+        $this->turnExpressModeOn();
 
         return R::convertToBeans($this->type, $rows);
     }
@@ -114,9 +125,9 @@ class Finder
      *
      * @return RedBean_OODBBean
      */
-    public function findFirst()
+    public function findFirst($order = 'id')
     {
-        $results = $this->find(1, 0, ' ORDER BY '. $this->writer->esc('id') .' ASC ');
+        $results = $this->find(1, 0, ' ORDER BY '. $this->writer->esc($order) .' ASC ');
 
         return reset($results);
     }
@@ -126,9 +137,9 @@ class Finder
      *
      * @return RedBean_OODBBean
      */
-    public function findLast()
+    public function findLast($order = 'id')
     {
-        $results = $this->find(1, 0, ' ORDER BY ' . $this->writer->esc('id') . ' DESC ');
+        $results = $this->find(1, null, ' ORDER BY ' . $this->writer->esc($order) . ' DESC ');
 
         return end($results);
     }

@@ -21,7 +21,7 @@ class FilterResolver
     public function getFilterInstanceOrFail($token)
     {
         $FilterClass = $this->solveFilterClass($token);
-        if (!$this->filterExists($FilterClass)) {
+        if (! $this->filterExists($FilterClass)) {
             throw new \RuntimeException("\"{$token}\" is not a valid RedSql construct");
         }
 
@@ -30,16 +30,13 @@ class FilterResolver
 
     public function filterExists($class)
     {
-        if (class_exists($class)) {
-           return true;
-        }
-
-        return false;
+        return class_exists($class);
     }
 
     public function solveFilterClass($token)
     {
         $real_token = $this->sanitizeToken($token);
+
         if (in_array($real_token, array_keys($this->map))) {
             $real_token = $this->map[$token];
         }

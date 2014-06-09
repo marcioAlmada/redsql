@@ -352,6 +352,30 @@ abstract class FinderTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function lazyFinder()
+    {
+         $finder = R::redsql('genius')->deleted(false);
+
+         $this->assertEquals('Albert Einstein', $finder->findFirst()->name);
+         $this->assertEquals('Vincent van Gogh', $finder->findLast()->name);
+         
+         $this->assertSame(count($finder->find(5, 2)), count($finder->find(5, 2)));
+         $this->assertSame(count($finder->find(3, 2)), count($finder->find(3, 2)));
+
+         $finder->birth('>',  1853);
+         
+         $this->assertCount(2, $finder->find());
+         $this->assertEquals('Albert Einstein', $finder->findFirst()->name);
+         $this->assertEquals('Sigmund Freud', $finder->findLast()->name);
+
+         $finder->name('like', 'A%');
+         $this->assertCount(1, $finder->find());
+         $this->assertCount(1, $finder->find());
+    }
+
+    /**
+     * @test
+     */
     public function finderToString()
     {
         $sqldump = (string) R::redsql('genius');
