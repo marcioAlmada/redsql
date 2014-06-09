@@ -7,7 +7,7 @@ use RedBean_Facade as R;
 /**
  * @group oracle
  */
-class OracleTest extends FinderTest
+class FinderOracleTest extends FinderTest
 {
 
     public static function setUpBeforeClass()

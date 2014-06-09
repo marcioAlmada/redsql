@@ -102,7 +102,7 @@ class Finder
      */
     public function find($limit = null, $offset = null, $sql_append = '')
     {
-        
+
         // backup state
         $sql = $this->sql;
         $values = $this->values;

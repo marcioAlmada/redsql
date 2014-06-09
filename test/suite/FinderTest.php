@@ -358,12 +358,12 @@ abstract class FinderTest extends \PHPUnit_Framework_TestCase
 
          $this->assertEquals('Albert Einstein', $finder->findFirst()->name);
          $this->assertEquals('Vincent van Gogh', $finder->findLast()->name);
-         
+
          $this->assertSame(count($finder->find(5, 2)), count($finder->find(5, 2)));
          $this->assertSame(count($finder->find(3, 2)), count($finder->find(3, 2)));
 
          $finder->birth('>',  1853);
-         
+
          $this->assertCount(2, $finder->find());
          $this->assertEquals('Albert Einstein', $finder->findFirst()->name);
          $this->assertEquals('Sigmund Freud', $finder->findLast()->name);
